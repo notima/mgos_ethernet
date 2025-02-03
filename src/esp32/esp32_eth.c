@@ -104,7 +104,7 @@ bool mgos_ethernet_init(void) {
       break;
     default:
       LOG(LL_ERROR, ("Invalid eth.clk_mode %d", mgos_sys_config_get_eth_clk_mode()));
-      return false;
+      return true;
   }
   esp_eth_mac_t *mac = esp_eth_mac_new_esp32(&mac_config);
 
@@ -123,7 +123,7 @@ bool mgos_ethernet_init(void) {
   esp_err_t ret = esp_eth_driver_install(&eth_config, &eth_handle);
   if (ret != ESP_OK) {
     LOG(LL_ERROR, ("Ethernet %s failed: %d", "driver init", ret));
-    return false;
+    return true;
   }
 
   esp_netif_config_t eth_if_cfg = ESP_NETIF_DEFAULT_ETH();
@@ -132,7 +132,7 @@ bool mgos_ethernet_init(void) {
   ret = esp_netif_attach(eth_if, esp_eth_new_netif_glue(eth_handle));
   if (ret != ESP_OK) {
     LOG(LL_ERROR, ("Ethernet %s failed: %d", "if attach", ret));
-    return false;
+    return true;
   }
 
   if (mgos_sys_config_get_eth_dhcp_hostname() != NULL &&
@@ -184,13 +184,13 @@ bool mgos_ethernet_init(void) {
   ret = esp_eth_start(eth_handle);
   if (ret != ESP_OK) {
     LOG(LL_ERROR, ("Ethernet %s failed: %d", "start", ret));
-    return false;
+    return true;
   }
 
   res = true;
 
 out:
-  return res;
+  return true;
 }
 
 bool mgos_eth_dev_get_ip_info(int if_instance,
