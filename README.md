@@ -1,5 +1,9 @@
 # Ethernet support
 
+## Changes to this fork
+
+- init method always returns true in order to prevent boot loops when an error occurs
+
 ## ESP32
 
 ESP32 includes an Ethernet MAC and requires an external PHY, connected over RMII interface.
